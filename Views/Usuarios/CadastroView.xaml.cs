@@ -2,13 +2,14 @@ using AppRpgEtec.ViewModels.Usuarios;
 
 namespace AppRpgEtec.Views.Usuarios;
 
-public partial class CadastroView : ContentView
+public partial class CadastroView : ContentPage
 {
-	UsuarioViewModel viewModel;
-	public CadastroView()
+    UsuarioViewModel viewModel;
+    public CadastroView()
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
 
-	}
+        viewModel = new UsuarioViewModel();
+        BindingContext = viewModel;
+    }
 }

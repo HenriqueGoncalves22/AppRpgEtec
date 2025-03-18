@@ -8,6 +8,7 @@ using System.Windows.Input;
 using AppRpgEtec.Models;
 using AppRpgEtec.Services.Usuarios;
 using AppRpgEtec.Views;
+using AppRpgEtec.Views.Usuarios;
 
 
 namespace AppRpgEtec.ViewModels.Usuarios
@@ -74,7 +75,7 @@ namespace AppRpgEtec.ViewModels.Usuarios
             try
             {
                 Usuario u = new Usuario();
-                u.Username Login;
+                u.Username = Login;
                 u.PasswordString = Senha;
                 Usuario uAutenticado = await uService.PostAutenticarUsuarioAsync(u);
                 if (!string.IsNullOrEmpty(uAutenticado.Token))
@@ -126,7 +127,7 @@ namespace AppRpgEtec.ViewModels.Usuarios
             try
             {
                 Usuario u = new Usuario();
-                u.Username Login; 
+                u.Username = Login; 
                 u.PasswordString = Senha;
                 Usuario uRegistrado = await uService.PostRegistrarUsuarioAsync(u);
                 if (uRegistrado.Id != 0)

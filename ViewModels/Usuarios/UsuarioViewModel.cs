@@ -8,6 +8,7 @@ using System.Windows.Input;
 using AppRpgEtec.Models;
 using AppRpgEtec.Services.Usuarios;
 using AppRpgEtec.Views;
+using AppRpgEtec.Views.Personagens;
 using AppRpgEtec.Views.Usuarios;
 
 
@@ -91,10 +92,10 @@ namespace AppRpgEtec.ViewModels.Usuarios
                     await Application.Current.MainPage
                     .DisplayAlert("Informação", mensagem, "Ok");
 
+                    Application.Current.MainPage = new ListagemView();
                 }
                 else
                 {
-                    Application.Current.MainPage = new MainPage();
                     await Application.Current.MainPage
                     .DisplayAlert("Informação", "Dados incorretos :(", "Ok");
                 }

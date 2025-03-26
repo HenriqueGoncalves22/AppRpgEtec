@@ -72,7 +72,6 @@ namespace AppRpgEtec.ViewModels.Usuarios
 
         public async Task AutenticarUsuario()//Método para autenticar um usuário
         {
-
             try
             {
                 Usuario u = new Usuario();
@@ -92,7 +91,7 @@ namespace AppRpgEtec.ViewModels.Usuarios
                     await Application.Current.MainPage
                     .DisplayAlert("Informação", mensagem, "Ok");
 
-                    Application.Current.MainPage = new ListagemView();
+                    Application.Current.MainPage = new AppShell();
                 }
                 else
                 {

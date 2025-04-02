@@ -10,7 +10,9 @@ using AppRpgEtec.Models.Enuns;
 using System.Windows.Input;
 
 namespace AppRpgEtec.ViewModels.Personagens
-{
+{ 
+
+    [QueryProperty("PersonagemSelecionadoId", "pId")]
     public class CadastroPersonagemViewModel : BaseViewModel
     {
         private PersonagemService pService;
@@ -188,8 +190,10 @@ namespace AppRpgEtec.ViewModels.Personagens
                 };
                 if (model.Id == 0)
                     await pService.PostPersonagemAsync(model);
-                await Application.Current.MainPage
-                    .DisplayAlert("Mensagem", "Dados salvos com sucesso!", "Ok");
+                else
+                    await pService.PutPersonagemAsync (model);
+
+                await Application.Current.MainPage.DisplayAlert("Mensagem", "Dados salvos com sucesso!", "Ok");
 
                 await Shell.Current.GoToAsync(".."); //Remove a página atual da pilha de páginas
             }
@@ -204,6 +208,46 @@ namespace AppRpgEtec.ViewModels.Personagens
         {
             await Shell.Current.GoToAsync("..");
         }
+
+        public async void CarregarPersonagem()
+        {
+            try
+            {
+                Personagem p = await
+                    pService.GetPersonagemAsync(int.Parse(personagemSelecionadoId));
+
+                this.Nome = p.Nome;
+                this.PontosVida = p.PontosVida;
+                this.Defesa = p.Defesa;
+                this.Derrotas = p.Derrotas;
+                this.Forca = p.Forca;
+                this.Inteligencia = p.Inteligencia;
+                this.Vitorias = p.Vitorias;
+                this.Id = p.Id;
+
+                TipoClasseSelecionado = this.ListaTiposClasse.FirstOrDefault(tClasse => tClasse.Id == (int)p.Classe);
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Ops", ex.Message + "Detalhes:" + ex.InnerException, "Ok");
+            }
+        }
+        private string personagemSelecionadoId;
+        public string PersonagemSelecionadoId
+        {
+            set
+            {
+                if (value != null)
+                {
+                    PersonagemSelecionadoId = Uri.UnescapeDataString(value);
+                    CarregarPersonagem();
+                }
+            }
+        }
+
+
+
+
     }
  }
 

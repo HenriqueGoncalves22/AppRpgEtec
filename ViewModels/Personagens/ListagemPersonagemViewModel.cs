@@ -7,32 +7,18 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using AppRpgEtec.Models;
 using AppRpgEtec.Services.Personagens;
-using AppRpgEtec.ViewModels;
 
 namespace AppRpgEtec.ViewModels.Personagens
 {
     public class ListagemPersonagemViewModel : BaseViewModel
     {
         private PersonagemService pService;
-
-        public ObservableCollection<Personagem> Personagens { get; set; }
-
-        public ListagemPersonagemViewModel()
-        {
-            string token = Preferences.Get("UsuarioToken", string.Empty);
-            pService = new PersonagemService(token);
-            Personagens = new ObservableCollection<Personagem>();
-
-            _ = ObterPersonagens();
-
-            NovoPersonagemCommand = new Command(async () => { await ExibirCadastroPersonagem(); });
-            RemoverPersonagemCommand = new Command<Personagem>(async (Personagem p) => { await RemoverPersonagem(p); });
-        }
-        public ICommand NovoPersonagemCommand { get; }
-        public ICommand RemoverPersonagemCommand { get; set; }
-
         private Personagem personagemSelecionado;
 
+        public ObservableCollection<Personagem> Personagens { get; set; }
+        public ICommand NovoPersonagemCommand { get; }
+        public ICommand RemoverPersonagemCommand { get; set; }
+        
         public Personagem PersonagemSelecionado
         {
             get { return personagemSelecionado; }
@@ -41,10 +27,22 @@ namespace AppRpgEtec.ViewModels.Personagens
                 if (value != null)
                 {
                     personagemSelecionado = value;
+
                     Shell.Current
-                        .GoToAsync($"cadPersonagemView?pId={personagemSelecionado.Id}");
+                        .GoToAsync($"cadPersonagemView?pid={personagemSelecionado.Id}");
                 }
             }
+        }
+
+        public ListagemPersonagemViewModel()
+        {
+            string token = Preferences.Get("UsuarioToken", string.Empty);
+            pService = new PersonagemService(token);
+            Personagens = new ObservableCollection<Personagem>();
+
+            _ = ObterPersonagens();
+            NovoPersonagemCommand = new Command(async () => { await ExibirCadastroPersonagem(); });
+            RemoverPersonagemCommand = new Command<Personagem>(async (Personagem p) => { await RemoverPersonagem(p); });
         }
 
         public async Task ObterPersonagens()
@@ -76,17 +74,21 @@ namespace AppRpgEtec.ViewModels.Personagens
         {
             try
             {
-                if (await Application.Current.MainPage.DisplayAlert("Confirmação", $"Confirma a remoção de {p.Nome}?", "Sim", "Não"))
+                if (await Application.Current.MainPage
+                    .DisplayAlert("Confirmação", $"Confirma a remoção de {p.Nome}?", "Sim", "Não"))
                 {
                     await pService.DeletePersonagemAsync(p.Id);
-                    await Application.Current.MainPage.DisplayAlert("Mensagem", "Personagem removido com sucesso!", "Ok");
+
+                    await Application.Current.MainPage.DisplayAlert("Mensagem",
+                        "Personagem removido com sucesso!", "Ok");
 
                     _ = ObterPersonagens();
                 }
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Ops", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
+                await Application.Current.MainPage
+                    .DisplayAlert("Ops", ex.Message + " Detalhes: " + ex.InnerException, "OK");
             }
         }
     }

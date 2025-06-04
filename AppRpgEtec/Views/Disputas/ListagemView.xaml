@@ -4,9 +4,8 @@
              x:Class="AppRpgEtec.Views.Disputas.ListagemView"
              Title="ListagemView">
     <VerticalStackLayout>
-        <SearchBar x:Name="searchBar" HeightRequest="25" Placeholder="Digite o nome do Personagem..."
-TextColor="Black" SearchCommand="{Binding PesquisarPersonagensCommand}"
-SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"/>
+        <Button Text="Zerar Ranking Geral" Command="{Binding ZerarRankingRestaurarVidasGeralCommand}"
+FontAttributes="Bold" VerticalOptions="FillAndExpand"/>
         <Entry Placeholder="Digite o nome do Personagem..." Text="{Binding TextoBuscaDigitado}">
         </Entry>
         <ListView x:Name="lvPersonagens" HasUnevenRows="True" ItemsSource="{Binding

@@ -15,7 +15,7 @@
         </ResourceDictionary>
    </ContentPage.Resouces>
 
-            <ScrollView>
+    <ScrollView>
         <VerticalStackLayout Padding="10, 0, 0, 0" VerticalOptions="FillAndExpand">
 
             <ListView x:Name="listView" HasUnevenRows="True" ItemsSource="{Binding Personagens}" 
@@ -29,7 +29,20 @@
                          CommandParameter="{Binding .}"></MenuItem>
                             </ViewCell.ContextActions>
                             <Grid Padding="15">
-                                    <ColumnDefinition Width="Auto" />
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <BoxView Grid.RowSpan="2" HeightRequest="50" WidthRequest="20" 
+                                             Color="{Binding PontosVida, Converter={StaticResource ColorConvert}}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Nome}" FontSize="18" FontAttributes="Bold"/>
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding PontosVida}" FontSize="14"/>
                                 </Grid>
                         </ViewCell>
                     </DataTemplate>

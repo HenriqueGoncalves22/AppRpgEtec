@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AndroidX.Annotations;
 using Microsoft.Maui.Graphics.Converters;
 
 namespace AppRpgEtec.Converters

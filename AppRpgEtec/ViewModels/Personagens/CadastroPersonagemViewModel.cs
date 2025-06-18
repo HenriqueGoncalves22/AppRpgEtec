@@ -72,7 +72,8 @@ namespace AppRpgEtec.ViewModels.Personagens
             set
             {
                 pontosVida = value;
-                OnPropertyChanged(nameof(PontosVida));                
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CadastroHabilitado));
             }
         }
 
@@ -264,17 +265,6 @@ namespace AppRpgEtec.ViewModels.Personagens
             }
         }
 
-        public int PontosVida
-        {
-            get => pontosVida;
-            set
-            {
-                pontosVida = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(CadastroHabilitado));
-            }
-        }
-
         public bool ValidarCampos()
         {
             return !string.IsNullOrEmpty(Nome)
@@ -282,9 +272,6 @@ namespace AppRpgEtec.ViewModels.Personagens
                 && Forca != 0
                 && Defesa != 0;
         }
-
-
-
 
 
 

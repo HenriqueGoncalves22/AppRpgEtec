@@ -165,17 +165,18 @@ namespace AppRpgEtec.ViewModels.Personagens
 
                 if (personagem.PontosVida > 0)
                 {
-                    result = await Application.Current.MainPage.DisplayActionSheet("Opções para o personagem" + personagem.Nome,
+                    result = await Application.Current.MainPage
+                    .DisplayActionSheet("Opções para o personagem" + personagem.Nome,
                         "Cancelar", "Editar Personagem", "Restaurar Pontos de Vida",
                         "Zerar Ranking do Personagem", "Remover Personagem");
                 }
                 else
                 {
-                    result = await Application.Current.MainPage.DisplayActionSheet("Opções para o personagem " +
-                        personagem.Nome, "Cancelar", "Restaurar Pontos de Vida");
+                    result = await Application.Current.MainPage.DisplayActionSheet("Opções para o Personagem"
+                        + personagem.Nome, "Cancelar", "Restaurar Pontos de Vida");
                 }
-                if (result != null)
-                    ProcessarOpcaoRespondidaAsync(personagem, result);
+                    if (result != null)
+                        ProcessarOpcaoRespondidaAsync(personagem, result);
             }
             catch (Exception ex)
             {
@@ -204,8 +205,5 @@ namespace AppRpgEtec.ViewModels.Personagens
                     .DisplayAlert("Ops...", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
             }
         }
-
-       
-
     }
 }

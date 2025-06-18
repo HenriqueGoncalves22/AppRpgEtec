@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AppRpgEtec.Models;
+using AppRpgEtec.Services.Disputas;
 using AppRpgEtec.Services.Personagens;
 using Azure.Storage.Blobs.Models;
 
@@ -17,22 +18,30 @@ namespace AppRpgEtec.ViewModels.Disputas
         public ObservableCollection<Personagem> PersonagensEncontrados {  get; set; }
         public Personagem Atacante { get; set; }
         public Personagem Oponente { get; set; }
+        private DisputasService dService;
+        public Disputa DisputaPersonagens { get; set; }
 
         public DisputaViewModel() 
         {
             string token = Preferences.Get("UsuarioToken", string.Empty);
             pService = new PersonagemService(token);
+            dService = new DisputasService(token);
 
             Atacante = new Personagem();
             Oponente = new Personagem();
+            DisputaPersonagens = new Disputa();
 
             PersonagensEncontrados = new ObservableCollection<Personagem>();
 
             PesquisarPersonagensCommand = 
                 new Command<string>(async (string pesquisa) => { await PesquisarPersonagens(pesquisa); });
+
+            DisputaComArmaCommand =
+                new Command(async () => { await ExecutarDisputaArmada(); });
           
         }
         public ICommand PesquisarPersonagensCommand { get; set; }
+        public ICommand DisputaComArmaCommand { get; set; }
 
         public async Task PesquisarPersonagens(string textoPesquisaPersonagem)
         {
@@ -114,6 +123,24 @@ namespace AppRpgEtec.ViewModels.Disputas
                 {
                     PersonagensEncontrados.Clear();
                 }
+            }
+        }
+
+        public async Task ExecutarDisputaArmada()
+        {
+            try
+            {
+                DisputaPersonagens.AtacanteId = Atacante.Id;
+                DisputaPersonagens.OponenteId = Oponente.Id;
+                DisputaPersonagens = await AdServices.PostDisputaComArmaAsync(DisputaPersonagens);
+
+                await Application.Current.MainPage
+                    .DisplayAlert("Resultado", DisputaPersonagens.Narracao, "Ok");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage
+                    .DisplayAlert("Ops", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
             }
         }
     }

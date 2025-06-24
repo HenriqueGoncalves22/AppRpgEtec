@@ -11,8 +11,8 @@ namespace AppRpgEtec.Services.PersonagemHabilidades
     public class PersonagemHabilidadeService : Request
     {
         private readonly Request _request = null;
-        //Substitua xyz abaixo pelo endereço da sua API:
-        private const string _apiUrlBase = "http://luizsouza.somee.com/RpgApi/PersonagemHabilidades";
+
+        private const string _apiUrlBase = "http://luizsouza.somee.com/RpgApi/PersonagemHabilidades/";
         private string _token;
         public PersonagemHabilidadeService(string token)
         {

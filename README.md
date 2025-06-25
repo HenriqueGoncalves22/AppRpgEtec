@@ -1,1 +1,2 @@
-# AppRpgEtec
+Henrique Gonçalves
+Guilherme Barros

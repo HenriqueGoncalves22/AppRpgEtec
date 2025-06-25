@@ -1,2 +1,2 @@
-Henrique Gonçalves
+Henrique Gonçalves, 
 Guilherme Barros
